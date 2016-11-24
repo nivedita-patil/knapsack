@@ -14,7 +14,6 @@ int main()
 	int maxWeight = 0;
 	ifstream infile("input.txt");
 	string fileInput;
-	int j=0;
 	if(infile.is_open())
 	{
 		while(true)
@@ -46,22 +45,12 @@ int main()
 void calculateKnapsack(int maxWeight, int n, vector<int>weight, vector<int>profit)
 {
 	int w;
-	//int knapsackMatrix[(n+1)][(maxWeight+1)];
 	vector<vector<int> > knapsackMatrix;
 	knapsackMatrix.resize(n+1);
-	cout<<"maxwt: "<<maxWeight+1<<endl;
-	int wt = maxWeight + 1;
 	for(int h=0; h<(n+1); h++)
 	{
-		knapsackMatrix[h].resize(wt);
+		knapsackMatrix[h].resize(maxWeight+1);
 	}
-/*	for(int l=0; l<(n+1); l++)
-	{
-		for(int m=0; m<(maxWeight+1); m++)
-		{
-			knapsackMatrix[l][m] = 0;
-		}
-	}*/
 	for(w=0; w<=maxWeight; w++)
 	{
 		knapsackMatrix[0][w] = 0;
@@ -91,4 +80,3 @@ void calculateKnapsack(int maxWeight, int n, vector<int>weight, vector<int>profi
 		printf("\n");
 	}
 }
-
