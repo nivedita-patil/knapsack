@@ -46,10 +46,13 @@ void calculateKnapsack(int maxWeight, int n, vector<int>weight, vector<int>profi
 {
 	int w;
 	vector<vector<int> > knapsackMatrix;
+	vector<vector<int> > itemsList;
 	knapsackMatrix.resize(n+1);
+	itemsList.resize(n+1);
 	for(int h=0; h<(n+1); h++)
 	{
 		knapsackMatrix[h].resize(maxWeight+1);
+		itemsList[h].resize(maxWeight+1);
 	}
 	for(w=0; w<=maxWeight; w++)
 	{
@@ -63,10 +66,12 @@ void calculateKnapsack(int maxWeight, int n, vector<int>weight, vector<int>profi
 			if((weight[k-1] <= w) && ((knapsackMatrix[k-1][w-weight[k-1]] + profit[k-1]) > knapsackMatrix[k-1][w]))
 			{
 				knapsackMatrix[k][w] = knapsackMatrix[k-1][w-weight[k-1]] + profit[k-1];
+				itemsList[k][w] = 1;
 			}
 			else
 			{
 				knapsackMatrix[k][w] = knapsackMatrix[k-1][w];
+				itemsList[k][w] = 0;
 			}
 		}
 	}
@@ -78,5 +83,15 @@ void calculateKnapsack(int maxWeight, int n, vector<int>weight, vector<int>profi
 			printf("%d\t", knapsackMatrix[i][j]);
 		}
 		printf("\n");
+	}
+
+	int toPrint = maxWeight;
+	for(int v=n; v>=1; v--)
+	{
+		if(itemsList[v][toPrint]==1)
+		{
+			cout<<"item: "<<v<<endl;
+			toPrint = toPrint - weight[v];
+		}
 	}
 }
