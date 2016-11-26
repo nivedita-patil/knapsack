@@ -2,6 +2,7 @@
 #include<cstdlib>
 #include<fstream>
 #include<vector>
+#include<ctime>
 #include"p3.h"
 
 using namespace std;
@@ -44,7 +45,10 @@ int main()
 
 void calculateKnapsack(int maxWeight, int n, vector<int>weight, vector<int>profit)
 {
+	const clock_t begin = clock();
 	int w;
+	int p=0;
+	int maxProfit=0;
 	vector<vector<int> > knapsackMatrix;
 	vector<vector<int> > itemsList;
 	knapsackMatrix.resize(n+1);
@@ -67,6 +71,11 @@ void calculateKnapsack(int maxWeight, int n, vector<int>weight, vector<int>profi
 			{
 				knapsackMatrix[k][w] = knapsackMatrix[k-1][w-weight[k-1]] + profit[k-1];
 				itemsList[k][w] = 1;
+				p++;
+				if(knapsackMatrix[k][w]>maxProfit)
+				{
+					maxProfit = knapsackMatrix[k][w];
+				}
 			}
 			else
 			{
@@ -75,23 +84,19 @@ void calculateKnapsack(int maxWeight, int n, vector<int>weight, vector<int>profi
 			}
 		}
 	}
-
-	for(int i=0; i<=n; i++)
-	{
-		for (int j = 0; j <= maxWeight; j++)
-		{
-			printf("%d\t", knapsackMatrix[i][j]);
-		}
-		printf("\n");
-	}
+	float total_time = float(clock() - begin)/CLOCKS_PER_SEC;
 
 	int toPrint = maxWeight;
-	for(int v=n; v>=1; v--)
+
+	cout<<n<<" "<<maxProfit<<" "<<total_time<<endl;
+
+	for(int v=n; 1<=v; v--)
 	{
 		if(itemsList[v][toPrint]==1)
 		{
-			cout<<"item: "<<v<<endl;
-			toPrint = toPrint - weight[v];
+			cout<<weight[v-1]<<" "<<profit[v-1]<<endl;
+			toPrint = toPrint - weight[v-1];
 		}
 	}
+
 }
